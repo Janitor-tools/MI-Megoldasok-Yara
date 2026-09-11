@@ -71,13 +71,11 @@ Célfájl: **`evaluate.py`** — a betanított modellek összehasonlítása Prec
 
 ## 📍 TODO / Mérföldkövek
 
-- [ ] **József:** A projekt alapstruktúrájának és a Fázis 1 kódjának feltöltése a közös Git repóba.
-- [ ] **József:** Az `extract_features.py` és a YARA szabály éles futtatása a Debian SSH szerveren a 10.000+ mintán.
-- [ ] **József:** A legenerált valós `dataset.csv` letöltése és megosztása a csapattal.
-- [ ] **Gyula & Attila:** A repó klónozása és a lokális Python környezetek (venv) felállítása.
-- [ ] **Gyula & Attila:** A Fázis 2 (Modellezés) kódjának kidolgozása a valós adathalmazon, majd commitolása.
-- [ ] **Közös:** A Fázis 3 (Kiértékelés) lefuttatása az elkészült modelleken.
-- [ ] **Közös:** Az eredmények (metrikák, konfúziós mátrixok) elemzése és a végső dokumentáció/prezentáció elkészítése.
+- [x] **József:** A projekt alapstruktúrájának és a Fázis 1 kódjának elkészítése.
+- [ ] **Gyula/Attila:** Az `extract_features.py` éles futtatása a távoli egyetemi Debian szerveren a 10.000+ mintán.
+- [ ] **Gyula/Attila:** A legenerált valós `dataset.csv` megosztása a csapattal.
+- [ ] **Gyula & Attila:** A Fázis 2 (Modellezés) kidolgozása a valós adathalmazon.
+- [ ] **Közös:** A Fázis 3 (Kiértékelés) lefuttatása az elkészült modelleken, eredmények elemzése.
 
 ---
 
