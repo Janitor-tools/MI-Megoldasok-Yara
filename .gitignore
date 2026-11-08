@@ -4,6 +4,9 @@ __pycache__/
 dataset.csv
 *.log
 *.png
+!correlation_matrix.png
+!pca_kmeans_clusters.png
+!elbow_plot.png
 models/*.joblib
 data/samples/
 data/raw/
