@@ -41,12 +41,28 @@ MI-Megoldasok-Yara/
 - **Git policy:** Raw adatok és .tgz fájlok .gitignore-ban, csak a YARA szabályok és a kód commitolva
 
 ## EDA & Unsupervised eredmények (2026-11-08)
-- **Hiányzó értékek:** MaxSectionEntropy 538 NaN → median imputálva
-- **PCA 2 komponens:** PC1=20.82%, PC2=14.43%, összesen 35.25% variancia
-- **Elbow heurisztika:** K=3 a legjobb (3 természetes klaszter)
-- **Klaszter eloszlás (K=3):** Cluster 0: 28.2%, Cluster 1: 71.1%, Cluster 2: 0.7%
+- **Hiányzó értékek:** MaxSectionEntropy 538 NaN (1.4%) → median imputálva
 - **Korrelációk:** Legerősebb: NumberOfSections↔ImportedDLLCount (0.50), NumberOfImportedFunctions↔ImportedDLLCount (0.49), FileEntropy↔MaxSectionEntropy (0.43)
-- **Vizuális artifactek:** correlation_matrix.png, elbow_plot.png, pca_kmeans_clusters.png
+
+### PCA dimenzióelemzés
+- **2 komponens (vizualizációhoz):** PC1=20.82%, PC2=14.43%, összesen 35.25%
+- **90% variancia eléréséhez:** 8 komponens kell (91.6%)
+- **95% variancia eléréséhez:** 9 komponens kell (95.9%)
+- **Konklúzió:** A variancia egyenletesen oszlik el a feature-ök között (nincs domináns PC), ami arra utal, hogy a 10 feature viszonylag ortogonális/független információt hordoz — a klasszifikációnál érdemes mind a 10-et megtartani, nem csökkenteni dimenzióval.
+
+### Klaszter profil (K=3, Elbow heurisztika)
+- **Cluster 1 (71.1%, 27131 minta):** "Tipikus malware" — közepes méret, magas entrópia (6.92), átlagos import komplexitás
+- **Cluster 0 (28.2%, 10776 minta):** "Alacsony entrópiájú" — alacsony FileEntropy (4.85), kevés import (60 fn, 2.7 DLL), nagy kódszekció
+- **Cluster 2 (0.7%, 254 minta):** "Komplex outlierek" — drasztikusan eltér:
+  - NumberOfSections: **10.3x** az átlagnál (medián 89 szekció!)
+  - NumberOfResources: **28.3x** (medián 401)
+  - ImportedDLLCount: **10.2x** (medián 23 DLL)
+  - NumberOfImportedFunctions: **5.9x** (medián 679)
+  - Interpretáció: Valószínűleg erősen pakolt/obfuszkált vagy legitim komplex binárisok, amelyek kiemelkedő számú szekciót és erőforrást tartalmaznak
+
+### Generált fájlok
+- `correlation_matrix.png`, `elbow_plot.png`, `pca_kmeans_clusters.png`, `pca_cumulative.png`
+- `dataset_v2_clustered.csv` — az eredeti adathalmaz + Cluster oszlop
 
 ## Következő lépések
 1. **SÜRGŐS:** Oktatótól bekérni a label fájlt (sha256,label CSV formátum)

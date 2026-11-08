@@ -7,6 +7,7 @@ dataset.csv
 !correlation_matrix.png
 !pca_kmeans_clusters.png
 !elbow_plot.png
+!pca_cumulative.png
 models/*.joblib
 data/samples/
 data/raw/

@@ -102,3 +102,66 @@ print(f"\nCluster distribution (K={best_k}):")
 unique, counts = np.unique(labels, return_counts=True)
 for c, n in zip(unique, counts):
     print(f"  Cluster {c}: {n:>6} samples ({n/len(df)*100:.1f}%)")
+
+# --- Cluster statistical profile ---
+X_with_cluster = X.copy()
+X_with_cluster["Cluster"] = labels
+
+print("\n" + "=" * 70)
+print("CLUSTER STATISTICAL PROFILE")
+print("=" * 70)
+
+cluster_mean = X_with_cluster.groupby("Cluster")[FEATURES].mean()
+cluster_median = X_with_cluster.groupby("Cluster")[FEATURES].median()
+
+print("\n--- Mean per cluster ---")
+print(cluster_mean.round(2).to_string())
+print("\n--- Median per cluster ---")
+print(cluster_median.round(2).to_string())
+
+overall_mean = X[FEATURES].mean()
+print("\n--- Cluster 2 vs Overall (deviation factor: cluster_mean / overall_mean) ---")
+smallest_cluster = counts.argmin()
+deviation = cluster_mean.loc[smallest_cluster] / overall_mean
+for feat in FEATURES:
+    marker = " <<<" if abs(deviation[feat] - 1) > 1.0 else ""
+    print(f"  {feat:>30s}: {deviation[feat]:>8.2f}x{marker}")
+
+# --- Full PCA cumulative variance ---
+pca_full = PCA(n_components=len(FEATURES))
+pca_full.fit(X_scaled)
+cumvar = np.cumsum(pca_full.explained_variance_ratio_)
+
+n_90 = int(np.argmax(cumvar >= 0.90)) + 1
+n_95 = int(np.argmax(cumvar >= 0.95)) + 1
+
+print(f"\n--- Full PCA cumulative variance ---")
+for i, (ev_i, cv_i) in enumerate(zip(pca_full.explained_variance_ratio_, cumvar)):
+    print(f"  PC{i+1:>2d}: {ev_i:.4f}  (cumulative: {cv_i:.4f} / {cv_i*100:.1f}%)")
+print(f"\nComponents for 90% variance: {n_90}")
+print(f"Components for 95% variance: {n_95}")
+
+fig, ax = plt.subplots(figsize=(8, 5))
+ax.bar(range(1, len(FEATURES) + 1), pca_full.explained_variance_ratio_,
+       alpha=0.6, label="Individual")
+ax.step(range(1, len(FEATURES) + 1), cumvar, where="mid",
+        color="red", linewidth=2, label="Cumulative")
+ax.axhline(y=0.90, color="green", linestyle="--", alpha=0.7, label="90% threshold")
+ax.axhline(y=0.95, color="orange", linestyle="--", alpha=0.7, label="95% threshold")
+ax.set_xlabel("Principal Component")
+ax.set_ylabel("Explained Variance Ratio")
+ax.set_title("PCA Cumulative Explained Variance (10 Features)")
+ax.set_xticks(range(1, len(FEATURES) + 1))
+ax.legend(loc="center right")
+ax.grid(True, alpha=0.3)
+fig.tight_layout()
+fig.savefig("pca_cumulative.png", dpi=150)
+plt.close(fig)
+print("Saved pca_cumulative.png")
+
+# --- Save clustered dataset ---
+df_out = df.copy()
+df_out[FEATURES] = X
+df_out["Cluster"] = labels
+df_out.to_csv("dataset_v2_clustered.csv", index=False)
+print(f"\nSaved dataset_v2_clustered.csv ({len(df_out)} rows)")
