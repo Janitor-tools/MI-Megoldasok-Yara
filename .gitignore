@@ -9,6 +9,8 @@ dataset.csv
 !elbow_plot.png
 !pca_cumulative.png
 !shap_summary_dummy.png
+!tsne_clusters.png
+!tsne_anomalies.png
 models/*.joblib
 data/samples/
 data/raw/

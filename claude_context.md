@@ -80,8 +80,16 @@ MI-Megoldasok-Yara/
 - **Megjegyzés:** Dummy label-ekkel a SHAP értékek kicsik és szimmetrikusak (~0 körül) — elvárt. Valódi label-ekkel a feature-ök differenciáló ereje ki fog rajzolódni.
 - **Vizuális artifact:** `shap_summary_dummy.png`
 
+## t-SNE & Isolation Forest (2026-11-08)
+- **Fájl:** `advanced_visualization.py` — t-SNE 2D projekció + anomália detekció
+- **t-SNE:** 5000 mintás alminta, perplexity=30, KL divergencia=0.4843
+- **Isolation Forest:** 1908 anomália (5.0%) az összes mintából
+- **Keresztvalidáció:** K-Means Cluster 2 minták 73.2%-a IF anomália is — az outlier szignál két független módszerrel megerősítve
+- **Vizuális artifactek:** `tsne_clusters.png`, `tsne_anomalies.png`
+- **README.md:** Professzionális projekt dokumentáció Gyula és Attila számára, step-by-step label merge instrukciókkal
+
 ## Következő lépések
 1. **SÜRGŐS:** Oktatótól bekérni a label fájlt (sha256,label CSV formátum)
-2. Label merge → `load_data()` dummy generálás cseréje valódi CSV olvasásra
+2. Label merge → `load_data()` dummy generálás cseréje valódi CSV olvasásra (ld. README.md)
 3. Hiperparaméter tuning (GridSearch / RandomizedSearch)
 4. Confusion matrix vizualizáció + SHAP újrafuttatás valódi label-ekkel
