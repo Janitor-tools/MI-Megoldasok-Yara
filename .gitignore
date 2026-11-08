@@ -6,3 +6,5 @@ dataset.csv
 *.png
 models/*.joblib
 data/samples/
+data/raw/
+Instrukciók/*.tgz
