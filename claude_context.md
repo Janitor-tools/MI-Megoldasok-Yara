@@ -64,8 +64,17 @@ MI-Megoldasok-Yara/
 - `correlation_matrix.png`, `elbow_plot.png`, `pca_kmeans_clusters.png`, `pca_cumulative.png`
 - `dataset_v2_clustered.csv` — az eredeti adathalmaz + Cluster oszlop
 
+## ML Pipeline csontváz (2026-11-08)
+- **Fájl:** `ml_pipeline_skeleton.py` — teljes, futtatható pipeline
+- **Modellek:** RandomForest (200 fa, max_depth=15, balanced) + XGBoost (200 iter, lr=0.1)
+- **Validáció:** 5-fold Stratified Cross-Validation + 80/20 holdout test set
+- **Metrikák:** Accuracy, Precision, Recall, F1 (weighted), ROC-AUC
+- **Label:** Jelenleg dummy (random 0/1) — `load_data()` függvényben cserélendő
+- **Dummy eredmény:** ~50% minden metrikán (elvárt random labellel)
+- **Státusz:** KÉSZ, valódi label-re vár
+
 ## Következő lépések
 1. **SÜRGŐS:** Oktatótól bekérni a label fájlt (sha256,label CSV formátum)
-2. Label merge a dataset_v2.csv-be → dataset_v2_labeled.csv
-3. Modell építés (klasszifikáció): train/test split, baseline modell, hiperparaméter tuning
-4. Értékelés: accuracy, precision, recall, F1, confusion matrix
+2. Label merge → `load_data()` dummy generálás cseréje valódi CSV olvasásra
+3. Hiperparaméter tuning (GridSearch / RandomizedSearch)
+4. Feature importance elemzés + Confusion matrix vizualizáció
