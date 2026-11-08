@@ -8,6 +8,7 @@ dataset.csv
 !pca_kmeans_clusters.png
 !elbow_plot.png
 !pca_cumulative.png
+!shap_summary_dummy.png
 models/*.joblib
 data/samples/
 data/raw/

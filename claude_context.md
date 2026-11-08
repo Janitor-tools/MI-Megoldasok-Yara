@@ -73,8 +73,15 @@ MI-Megoldasok-Yara/
 - **Dummy eredmény:** ~50% minden metrikán (elvárt random labellel)
 - **Státusz:** KÉSZ, valódi label-re vár
 
+## SHAP Explainability (2026-11-08)
+- **Fájl:** `shap_explainer.py` — TreeExplainer-rel, 1000 mintás teszthalmazon
+- **Módszer:** SHAP beeswarm plot (feature importance + irány)
+- **Dummy eredmény (top 3):** FileEntropy (0.0074), MaxSectionEntropy (0.0072), FileSize (0.0064)
+- **Megjegyzés:** Dummy label-ekkel a SHAP értékek kicsik és szimmetrikusak (~0 körül) — elvárt. Valódi label-ekkel a feature-ök differenciáló ereje ki fog rajzolódni.
+- **Vizuális artifact:** `shap_summary_dummy.png`
+
 ## Következő lépések
 1. **SÜRGŐS:** Oktatótól bekérni a label fájlt (sha256,label CSV formátum)
 2. Label merge → `load_data()` dummy generálás cseréje valódi CSV olvasásra
 3. Hiperparaméter tuning (GridSearch / RandomizedSearch)
-4. Feature importance elemzés + Confusion matrix vizualizáció
+4. Confusion matrix vizualizáció + SHAP újrafuttatás valódi label-ekkel
