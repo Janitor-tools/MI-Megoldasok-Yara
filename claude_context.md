@@ -40,9 +40,16 @@ MI-Megoldasok-Yara/
 - **Imphash:** Kihagyva — szigorúan 10 numerikus feature
 - **Git policy:** Raw adatok és .tgz fájlok .gitignore-ban, csak a YARA szabályok és a kód commitolva
 
+## EDA & Unsupervised eredmények (2026-11-08)
+- **Hiányzó értékek:** MaxSectionEntropy 538 NaN → median imputálva
+- **PCA 2 komponens:** PC1=20.82%, PC2=14.43%, összesen 35.25% variancia
+- **Elbow heurisztika:** K=3 a legjobb (3 természetes klaszter)
+- **Klaszter eloszlás (K=3):** Cluster 0: 28.2%, Cluster 1: 71.1%, Cluster 2: 0.7%
+- **Korrelációk:** Legerősebb: NumberOfSections↔ImportedDLLCount (0.50), NumberOfImportedFunctions↔ImportedDLLCount (0.49), FileEntropy↔MaxSectionEntropy (0.43)
+- **Vizuális artifactek:** correlation_matrix.png, elbow_plot.png, pca_kmeans_clusters.png
+
 ## Következő lépések
 1. **SÜRGŐS:** Oktatótól bekérni a label fájlt (sha256,label CSV formátum)
 2. Label merge a dataset_v2.csv-be → dataset_v2_labeled.csv
-3. EDA (Exploratory Data Analysis) — eloszlások, korrelációk, hiányzó értékek
-4. Modell építés (klasszifikáció): train/test split, baseline modell, hiperparaméter tuning
-5. Értékelés: accuracy, precision, recall, F1, confusion matrix
+3. Modell építés (klasszifikáció): train/test split, baseline modell, hiperparaméter tuning
+4. Értékelés: accuracy, precision, recall, F1, confusion matrix
